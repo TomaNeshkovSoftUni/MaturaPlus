@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ръчни тестове | Матура+</title>
+  <link rel="stylesheet" href="../frontend/css/tokens.css">
+  <link rel="stylesheet" href="../frontend/css/base.css">
+  <link rel="stylesheet" href="../frontend/css/components.css">
+</head>
+<body>
+  <main class="container section stack" style="max-width:820px">
+    <h1>Режим за ръчно тестване</h1>
+    <p class="muted">Настройките важат за този браузър, докато не ги изключите. Отворете <a href="../feedback.html">формата за обратна връзка</a> в нов таб и опитайте сценариите.</p>
+    <div id="state" class="alert alert--info" role="status" aria-live="polite"></div>
+
+    <div class="card stack">
+      <h2>Симулации</h2>
+      <label class="check"><input type="checkbox" id="slow"> <span>Бавен отговор (4 секунди) – бутонът трябва да е заключен с „Изпращане...“</span></label>
+      <label class="check"><input type="checkbox" id="offline"> <span>Мрежова грешка – „Неуспешно изпращане. Опитайте отново.“, текстът остава</span></label>
+      <label class="check"><input type="checkbox" id="dbDown"> <span>Базата е недостъпна – сървърът връща 500 с безопасно съобщение</span></label>
+      <div class="row"><button class="btn btn--outline" type="button" id="clear">Изключи всички симулации</button></div>
+    </div>
+
+    <div class="card stack">
+      <h2>Сценарии за Feedback</h2>
+      <ol>
+        <li>Без избран тип → грешка до „Тип“.</li>
+        <li>9 символа → грешка; 10 символа → приема; 1000 → приема; 1001 → грешка (броячът става червен).</li>
+        <li>Само интервали → „Въведете текст…“.</li>
+        <li>Двоен клик / Enter по време на бавна заявка → само един запис (проверете долу).</li>
+        <li>Грешка при мрежа → текстът остава; повторен опит използва същия requestId.</li>
+        <li>6 изпращания за минута → 429 „Твърде много заявки…“.</li>
+        <li>Презаредете страницата (F5) → записите остават (persistence).</li>
+        <li>Като гост отворете <code>dashboard/admin.html</code> → пренасочване към вход; API връща 401.</li>
+      </ol>
+    </div>
+
+    <div class="card stack">
+      <h2>Записи във Feedback (директно от базата)</h2>
+      <div class="row"><button class="btn btn--outline btn--sm" type="button" id="refresh">Обнови</button></div>
+      <div class="table-wrap"><table class="table"><thead><tr><th>Id</th><th>Тип</th><th>Дължина</th><th>UserId</th><th>Статус</th><th>RequestId</th></tr></thead><tbody id="rows"></tbody></table></div>
+    </div>
+
+    <div class="card stack">
+      <h2>Демо база</h2>
+      <p class="muted">Изтрива всички локални данни на Матура+ в този браузър и при следващо зареждане създава отново демо данните.</p>
+      <div class="row"><button class="btn btn--danger" type="button" id="reset">Нулирай демо базата</button></div>
+    </div>
+  </main>
+
+  <script src="../frontend/js/boot.js" data-page="tests/manual.js"></script>
+</body>
+</html>
